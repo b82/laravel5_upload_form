@@ -21,6 +21,7 @@ class WelcomeController extends Controller {
 
 	public function upload(){
 
+		// se si fa upload senza immagine, Input::file('image') è NULL
 		if(Input::hasFile('image')){
 			// getting all of the post data
 			$filename = Input::file('image')->getClientOriginalName();
