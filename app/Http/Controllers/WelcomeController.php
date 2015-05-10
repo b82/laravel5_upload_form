@@ -15,26 +15,30 @@ class WelcomeController extends Controller {
 	
 	public function index() {
 
-		$img = '';
+		$img = 'land.jpg';
 		return view('welcome', compact('img'));
 	}
 
 	public function upload(){
 
-		// getting all of the post data
-		$filename = Input::file('image')->getClientOriginalName();
-		$file = array('image' => $filename);
+		if(Input::hasFile('image')){
+			// getting all of the post data
+			$filename = Input::file('image')->getClientOriginalName();
+			$file = array('image' => $filename);
 
-		// setting up rules
-		$rules = array('image' => 'required'); //'required|mimes:jpeg,jpg,png|max:200px'
+			// setting up rules
+			$rules = array('image' => 'required'); //'required|mimes:jpeg,jpg,png|max:200px'
 
-		// doing the validation, passing post data, rules and the messages
-		$validator = Validator::make($file, $rules);
+			// doing the validation, passing post data, rules and the messages
+			$validator = Validator::make($file, $rules);
 
-		if ($validator->fails()) {
-			// send back to the page with the input data and errors
-			return 'ko';
-		}else{
+			if ($validator->fails()) {
+
+				// send back to the page with the input data and errors
+				return 'ko';
+
+			}else{
+
 				if (Input::file('image')->isValid()) {
 					
 					$destinationPath = public_path().'\uploads'; // upload path
@@ -47,9 +51,16 @@ class WelcomeController extends Controller {
 					}
 
 				}
+
 			}
 
+
+		}else{
+			return 'no';
+		}
+
 		
+
 	}
 
 }
