@@ -4,6 +4,7 @@ use Input;
 use Validator;
 use Redirect;
 use Request;
+use App\Post;
 
 class WelcomeController extends Controller {
 
@@ -15,14 +16,15 @@ class WelcomeController extends Controller {
 	
 	public function index() {
 
-		$img = 'land.jpg';
-		return view('welcome', compact('img'));
+		$posts = Post::orderBy('id', 'DESC')->get();
+		return view('welcome', compact('posts'));
 	}
 
 	public function upload(){
 
 		// se si fa upload senza immagine, Input::file('image') è NULL
 		if(Input::hasFile('image')){
+
 			// getting all of the post data
 			$filename = Input::file('image')->getClientOriginalName();
 			$file = array('image' => $filename);
